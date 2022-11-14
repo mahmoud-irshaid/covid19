@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import DashboardSlice from './redux/DashboardSlice'
+import Loader from './components/Loader';
 const Home = lazy(() => import('./pages/Home'))
 
 const App = () => {
@@ -18,7 +19,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Suspense fallback={
-          <div >Loading....</div>
+          <Loader />
         }>
           <Switch>
 

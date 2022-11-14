@@ -1,20 +1,66 @@
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+}
+
 .container {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 5rem;
+    margin-top: 4rem;
     padding: 1rem;
+
+    background-color: rgba(245, 245, 245, 0.384);
 
 }
 
+.noData {
+    position: absolute;
+    right: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: center;
+    margin: 0 auto;
+}
+
 .pageTitleContainer {
-    width: 70%;
+    width: 100%;
     display: flex;
     justify-content: flex-start;
 }
 
 .stats {
-    margin: 5%;
+    margin: 5% 0;
+}
+
+.tableHead {
+    background: rgb(25, 118, 210);
+}
+
+.globalCards {
+    border-width: 10px;
+    border-color: rgb(25, 118, 210);
+}
+
+.loader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: 'center';
+    margin: 0 auto;
+}
+
+@media screen and (min-width:600px) {
+    .container {
+        padding-left: 13rem
+    }
 }
