@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+import DashboardSlice from './redux/DashboardSlice'
+const Home = lazy(() => import('./pages/Home'))
 
-function App() {
+const App = () => {
+
+  const store = configureStore({
+    reducer: {
+      DashboardSlice,
+
+    },
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Suspense fallback={
+          <div >Loading....</div>
+        }>
+          <Switch>
+
+            <Route exact path='/' >
+              <Home />
+            </Route>
+
+
+          </Switch>
+        </Suspense>
+      </Router>
+    </Provider>
   );
 }
 
