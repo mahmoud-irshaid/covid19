@@ -17,18 +17,18 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Loader from '../components/Loader';
 
 const Home = () => {
     const dispatch = useDispatch()
+    //get redux slice
     const DashboardSlice = useSelector((state) => state.DashboardSlice)
 
 
-    const [global, setGlobal] = useState(DashboardSlice.global || [])
     const [countries, setCountries] = useState(DashboardSlice.countries || [])
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState('')
-
+    const [rankBy, setRankBy] = useState('')
+    // get data from Api call 
 
     useEffect(() => {
         const getData = async () => {
@@ -36,10 +36,10 @@ const Home = () => {
             try {
                 const result = await axios.get('https://api.covid19api.com/summary')
 
-                console.log(result.data, 'here')
+                console.log(result.data, 'data is here')
+                // dispatch to save data in redux store
                 await dispatch(setStoreGlobal(result.data.Global))
                 await dispatch(setStoreCountries(result.data.Countries))
-                setGlobal(result.data.global)
                 setCountries(result.data.Countries)
 
                 setLoading(false)
@@ -51,17 +51,19 @@ const Home = () => {
     }, [])
 
 
+    // filter countries by search
     useEffect(() => {
         if (search.length > 0) {
-            let filterCountries = countries?.filter((item) => item?.Slug?.includes(search))
+            let filterCountries = DashboardSlice.countries?.filter((item) => item?.Slug?.includes(search))
             setCountries(filterCountries)
         } else setCountries(DashboardSlice.countries)
-    }, [search])
+    }, [search, rankBy])
 
 
-    const handleChange = (event) => {
+    // rank countries by Total (cases, deaths, and recoverd) 
+    useEffect(() => {
         let newArr = Array.from(countries)
-        switch (event.target.value) {
+        switch (rankBy) {
 
             case 'Cases':
                 newArr = newArr.sort((a, b) => a?.TotalConfirmed < b?.TotalConfirmed ? 1 : -1)
@@ -71,18 +73,17 @@ const Home = () => {
             case 'Deaths':
                 newArr = newArr.sort((a, b) => a?.TotalDeaths < b?.TotalDeaths ? 1 : -1)
                 setCountries(newArr)
-
                 break;
+
             case 'Recovered':
                 newArr = newArr.sort((a, b) => a?.TotalRecovered < b?.TotalRecovered ? 1 : -1)
                 setCountries(newArr)
-
                 break;
+
             default:
-                setCountries(DashboardSlice.countries)
                 break;
         }
-    };
+    }, [rankBy])
 
 
 
@@ -115,7 +116,7 @@ const Home = () => {
 
                 </Paper>
 
-                <Stack flexDirection={'row'} width='72%' alignItems='center' justifyContent='flex-end'>
+                <Stack flexDirection={'row'} width='100%' alignItems='center' justifyContent='flex-end'>
                     <Typography>Rank By :</Typography>
                     <FormControl sx={{ m: 3, ml: 1, minWidth: 120 }} size="small">
                         <InputLabel id="demo-select-small">filter</InputLabel>
@@ -123,7 +124,7 @@ const Home = () => {
                             labelId="demo-select-small"
                             id="demo-select-small"
                             label="filter"
-                            onChange={handleChange}
+                            onChange={(e) => setRankBy(e.target.value)}
                         >
                             <MenuItem value="">
                                 <em>None</em>

@@ -2,8 +2,8 @@ import React from 'react'
 import {
     CardContent,
     Typography,
-    Card,
-    Paper
+    Paper,
+    Divider
 } from "@material-ui/core";
 import { useSelector } from 'react-redux';
 import { Stack } from '@mui/material';
@@ -29,12 +29,13 @@ function GlobalStats() {
             direction={{ xs: 'column', sm: 'row' }}
             spacing={{ xs: 1, sm: 2, md: 4 }}
         >{GlobalStats.map((item) =>
-            <Paper elevation={3} style={{ padding: "10px", borderWidth: "10px", borderColor: 'black' }}
+            <Paper elevation={3} className={style.globalCards}
             >
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         {item?.name}
                     </Typography>
+                    <Divider />
                     <Typography variant="h5" component="div">
                         {item?.value || 0}
                     </Typography>

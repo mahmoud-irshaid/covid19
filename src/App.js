@@ -4,9 +4,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import DashboardSlice from './redux/DashboardSlice'
 import Loader from './components/Loader';
+import PageNotFound from './pages/PageNotFound';
 const Home = lazy(() => import('./pages/Home'))
 
 const App = () => {
+
+  // configuring Redux Store
 
   const store = configureStore({
     reducer: {
@@ -27,6 +30,9 @@ const App = () => {
               <Home />
             </Route>
 
+            <Route path="*"  >
+              <PageNotFound />
+            </Route>
 
           </Switch>
         </Suspense>

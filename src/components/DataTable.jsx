@@ -7,7 +7,6 @@ import {
     TableCell,
 } from "@material-ui/core";
 import style from '../pages/style/style.module.css'
-import { Typography } from '@mui/material';
 import Loader from './Loader';
 
 const DataTable = ({ data, loading }) => {
